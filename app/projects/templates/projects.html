@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>My Projects</h1>
+
+    <div class="right-align">
+        <div class="toggle-bar">
+            <div class="toggle-bar-left" id="toggle-official">Official Projects</div>
+            <div class="toggle-bar-center active" id="toggle-all">All Projects</div>
+            <div class="toggle-bar-right" id="toggle-unofficial">Personal Projects</div>
+        </div>
+    </div>
+
+    <div class="project-cards">
+    {% for project in projects %}
+        <a class="project-card {% if project.official %}official{% else %}unofficial{% endif %}" href="{{url_for('projects.view_project', project_id=project.id)}}">
+            <div class="project-card-header" {% if project.hexColor %}style="background-color:{{project.hexColor}}{% endif %}">
+                <span class="evenly-spaced">
+                    <span>{{project.title}}</span>
+                    <span>
+                        [
+                        {% if project.startDate %}
+                            {{project.startDate}} - 
+                            {% if project.endDate %}
+                                {{project.endDate}}
+                            {% else %}
+                                present
+                            {% endif %}
+                        {% else %}
+                        Ongoing
+                        {% endif %}
+                        ]
+                    </span>
+                </span>
+            </div>
+            <div class="project-card-body">
+                {{project.description}}
+            </div>
+            <div class="project-card-footer">
+                {{project.get_num_completed_tasks()}}/{{project.get_num_tasks()}}
+            </div>
+            
+        </a>
+    {% endfor %}
+    </div>
+
+    <script src="{{ url_for('static', filename='js/projects.js') }}"></script>
+
+{% endblock %}

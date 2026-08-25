@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{{project.title}}</h1>
+
+    {% if project.startDate %}
+        {{project.startDate}} - 
+        {% if project.endDate %}
+            {{project.endDate}}
+        {% else %}
+            present
+        {% endif %}
+    {% else %}
+    Ongoing
+    {% endif %}
+
+    {{project.description}}
+    {{project.get_num_completed_tasks()}}/{{project.get_num_tasks()}}
+
+    <div class="center-align">
+        <div class="project-board">
+            {% for task in tasks %}
+            <div class="task-card"
+                style="--x: {{task.boardX}};
+                --y: {{task.boardY}};
+                --width: {{task.boardSize}};
+                --ratio: {{task.boardRatio}};
+                --rotation: {{task.boardRotation}};
+                {% if task.priority == 'Default' %}--color: #61baff;{% else %}--color: #9c9c9c;{% endif %}
+                {% if task.progress == 'Not started' %}
+                --bgColor: #ffd4d4;
+                {% elif task.progress == 'In progress' %}
+                --bgColor: #feffd4;
+                {% elif task.progress == 'Almost done' %}
+                --bgColor: #efffd4;
+                {% elif task.progress == 'Done' %}
+                --bgColor: #c6ffc4
+                {% else %}
+                --bgColor: #e8d4ff;
+                {% endif %}
+                ">
+                {{task.title}}
+                {{task.description}}
+                {% if task.dueDate %}{{task.dueDate}}{% endif %}
+                {{task.progress}}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- <div class="center-align">
+        <div class="project-board">
+            {% for task in tasks %}
+
+            {% endfor %}
+        </div>
+    </div> -->
+{% endblock %}

@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+    <title>Example</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/view_projects.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/project_board.css') }}">
+    
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+
+<body>
+
+<nav>
+    <a href="{{url_for('main.index')}}">Home</a>
+    <a href="{{url_for('projects.view_projects')}}">Projects</a>
+</nav>
+
+<main>
+{% block content %}
+{% endblock %}
+</main>
+
+</body>
+</html>

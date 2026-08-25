@@ -1,0 +1,120 @@
+:root {
+    --nav-bg: #d3efff;
+
+    /* nav button */
+    --nav-button: #add7f0;
+    --nav-button-hover: #6996b0;
+    --nav-button-text: #00121d;
+    --nav-button-hover-text: #000000;
+
+    /* toggle bar */
+    --toggle-bar-default: #eee;
+    --toggle-bar-default-text: #333;
+    --toggle-bar-hover: #aaa;
+    --toggle-bar-hover-text: #000;
+    --toggle-bar-active: rgb(0, 94, 255);
+    --toggle-bar-active-text: #eee;
+    --toggle-bar-border: #333;
+}
+
+/* general areas */
+body {
+    margin: 0;
+}
+
+main {
+    margin: 8px;
+}
+
+nav {
+    /* Spacing */
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    /* Colors */
+    background-color: var(--nav-bg);
+}
+
+nav a {
+    text-decoration: none;
+    background-color: var(--nav-button);
+    color: var(--nav-button-text);
+    padding: 5px;
+    border-radius: 5px;
+}
+
+nav a:hover {
+    background-color: var(--nav-button-hover);
+    color: var(--nav-button-hover-text);
+}
+
+/* general styling */
+.hidden {
+    display: none;
+}
+
+/* general spacing */
+.left-align {
+    display: flex;
+    justify-content: left;
+}
+
+.center-align {
+    display: flex;
+    justify-content: center;
+}
+
+.right-align {
+    display: flex;
+    justify-content: right;
+}
+
+.evenly-spaced {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* toggle bar */
+.toggle-bar {
+    display: flex;
+}
+
+.toggle-bar-left,
+.toggle-bar-center,
+.toggle-bar-right {
+    padding: 3px;
+    cursor: pointer;
+
+    border-left: 1px solid var(--toggle-bar-border);
+    border-top: 1px solid var(--toggle-bar-border);
+    border-bottom: 1px solid var(--toggle-bar-border);
+
+    background-color: var(--toggle-bar-default);
+    color: var(--toggle-bar-default-text);
+}
+
+.toggle-bar-left {
+    border-radius: 5px 0 0 5px;
+}
+
+.toggle-bar-right {
+    border-right: 1px solid var(--toggle-bar-border);
+    border-radius: 0 5px 5px 0;
+}
+
+.toggle-bar-left:hover,
+.toggle-bar-center:hover,
+.toggle-bar-right:hover {
+    background-color: var(--toggle-bar-hover);
+    color: var(--toggle-bar-hover-text);
+}
+
+.toggle-bar-left.active,
+.toggle-bar-center.active,
+.toggle-bar-right.active {
+    background-color: var(--toggle-bar-active);
+    color: var(--toggle-bar-active-text);
+}
