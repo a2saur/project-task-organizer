@@ -6,6 +6,8 @@
     --nav-button-hover: #6996b0;
     --nav-button-text: #00121d;
     --nav-button-hover-text: #000000;
+    --nav-button-active: #003b93;
+    --nav-button-active-text: #ffffff;
 
     /* toggle bar */
     --toggle-bar-default: #eee;
@@ -43,6 +45,11 @@ nav a {
     color: var(--nav-button-text);
     padding: 5px;
     border-radius: 5px;
+}
+
+nav a.active{
+    background-color: var(--nav-button-active);
+    color: var(--nav-button-active-text);
 }
 
 nav a:hover {
@@ -117,4 +124,15 @@ nav a:hover {
 .toggle-bar-right.active {
     background-color: var(--toggle-bar-active);
     color: var(--toggle-bar-active-text);
+}
+
+/* General styles */
+.red-marker-underline {
+    text-decoration: solid underline rgb(198, 0, 0) 3px;
+}
+
+.center-stacked {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }

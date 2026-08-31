@@ -1,0 +1,158 @@
+/* ==============================
+   Form
+   ============================== */
+
+.form {
+    width: min(500px, 90%);
+    margin: 30px auto;
+    padding: 28px 32px;
+    background: #ffffff;
+    border: 1px solid #e3e3e3;
+    border-radius: 14px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+/* ==============================
+   Form Fields
+   ============================== */
+
+.form-field {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.form-field.center-stacked {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+}
+
+
+/* ==============================
+   Labels
+   ============================== */
+
+.form-field label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #444;
+}
+
+
+/* ==============================
+   Text Inputs
+   ============================== */
+
+.form-field input[type="text"],
+.form-field input[type="date"],
+.form-field textarea,
+.form-field select {
+    width: 100%;
+    box-sizing: border-box;
+
+    padding: 9px 11px;
+
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: #333;
+
+    background: #fafafa;
+    border: 1px solid #d5d5d5;
+    border-radius: 7px;
+
+    outline: none;
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease,
+        background-color 0.15s ease;
+}
+
+.form-field textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+
+/* ==============================
+   Focus
+   ============================== */
+
+.form-field input[type="text"]:focus,
+.form-field input[type="date"]:focus,
+.form-field textarea:focus,
+.form-field select:focus {
+    background: #ffffff;
+    border-color: #888;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
+}
+
+
+/* ==============================
+   Color Picker
+   ============================== */
+
+.form-field input[type="color"] {
+    width: 55px;
+    height: 36px;
+
+    padding: 3px;
+
+    background: #ffffff;
+    border: 1px solid #d5d5d5;
+    border-radius: 7px;
+
+    cursor: pointer;
+}
+
+
+/* ==============================
+   Checkbox
+   ============================== */
+
+.form-field input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+
+    accent-color: #555;
+    cursor: pointer;
+}
+
+
+/* ==============================
+   Submit Button
+   ============================== */
+
+.form-field input[type="submit"] {
+    width: 100%;
+    padding: 10px 16px;
+
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+
+    color: #ffffff;
+    background: #444;
+
+    border: none;
+    border-radius: 7px;
+
+    cursor: pointer;
+    transition:
+        background-color 0.15s ease,
+        transform 0.1s ease;
+}
+
+.form-field input[type="submit"]:hover {
+    background: #333;
+}
+
+.form-field input[type="submit"]:active {
+    transform: translateY(1px);
+}

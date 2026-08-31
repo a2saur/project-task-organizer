@@ -1,18 +1,37 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField, PasswordField, BooleanField
+from wtforms import StringField, SubmitField, TextAreaField, PasswordField, BooleanField, ColorField, SelectField, SubmitField
 from wtforms.validators import  Length, DataRequired, EqualTo, Email, ValidationError
 from wtforms_sqlalchemy.fields import QuerySelectField, QuerySelectMultipleField
-from wtforms.widgets import ListWidget, CheckboxInput
 
 from app import db
-# from app.models
+from app.models import Project, PROGRESS_OPTIONS, PRIORITIES
 import sqlalchemy as sqla
 
-# class CourseForm(FlaskForm):
-#     coursenum = StringField('Course Number',[Length(min=3, max=6)])
-#     title = StringField('Course Title', validators=[DataRequired()])
-#     major = QuerySelectField('Major',
-#                              query_factory = lambda : db.session.scalars(sqla.select(Major)),
-#                              get_label = lambda theMajor : theMajor.name,
-#                              allow_blank = False)
-#     submit = SubmitField('Post')
+class ProjectForm(FlaskForm):
+    title = StringField('Project Title', validators=[DataRequired()])
+    description = StringField('Project Description')
+    startDate = StringField('Start Date (m/d/y)')
+    endDate = StringField('End Date (m/d/y)')
+    colorPicked = ColorField("Project Color")
+    official = BooleanField("Official? ")
+    submit = SubmitField('Save')
+
+class TaskForm(FlaskForm):
+    project = QuerySelectField('Project',
+                             query_factory = lambda : db.session.scalars(sqla.select(Project)),
+                             get_label = lambda proj : proj.title,
+                             allow_blank = False)
+    title = StringField('Task Name', validators=[DataRequired()])
+    description = StringField('Project Description')
+    dueDate = StringField('Due Date (m/d/y H:M)')
+    priority = SelectField(
+        'Priority',
+        choices=PRIORITIES,
+        default=PRIORITIES[0]
+    )
+    status = SelectField(
+        'Status',
+        choices=PROGRESS_OPTIONS,
+        default=PROGRESS_OPTIONS[0]
+    )
+    submit = SubmitField('Save')

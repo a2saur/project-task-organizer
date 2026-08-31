@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/view_projects.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/project_board.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/overall_tasks.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
     
     <script src="{{ url_for('static', filename='script.js') }}" defer></script>
 </head>
@@ -13,8 +15,16 @@
 <body>
 
 <nav>
-    <a href="{{url_for('main.index')}}">Home</a>
-    <a href="{{url_for('projects.view_projects')}}">Projects</a>
+    <span class="evenly-spaced">
+        <span>
+            <a href="{{url_for('main.index')}}" {%if current_view=='index'%}class="active"{%endif%}>Home</a>
+            <a href="{{url_for('projects.view_projects')}}" {%if current_view=='projects'%}class="active"{%endif%}}>Projects</a>
+            <a href="{{url_for('main.view_tasks')}}" {%if current_view=='tasks'%}class="active"{%endif%}>All Tasks</a>
+        </span>
+        <span>
+            <a href="{{url_for('projects.add_project')}}" {%if current_view=='add_project'%} class="active"{%endif%}>Add Project</a>
+        </span>
+    </span>
 </nav>
 
 <main>
