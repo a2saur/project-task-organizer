@@ -22,6 +22,7 @@
             <a href="{{url_for('main.view_tasks')}}" {%if current_view=='tasks'%}class="active"{%endif%}>All Tasks</a>
         </span>
         <span>
+            <a href="{{url_for('main.add_task')}}" {%if current_view=='add_task'%} class="active"{%endif%}>Add Task</a>
             <a href="{{url_for('projects.add_project')}}" {%if current_view=='add_project'%} class="active"{%endif%}>Add Project</a>
         </span>
     </span>

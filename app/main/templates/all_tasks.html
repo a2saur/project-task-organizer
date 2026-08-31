@@ -28,7 +28,7 @@
                 {% set td_days = 365 %}
             {% endif %}
 
-            <div class="overall-task-card {%if td_days < 3 and task.progress != 'Done'%}task-due-soon{% endif %}"
+            <div class="overall-task-card {%if td_days < 3 and task.progress != 'Done'%}task-due-soon{% endif %} {%if task.priority == 'Not posted'%}low-priority{%endif%}"
                 data-task-id="{{ task.id }}"
                 data-progress="{{ task.progress }}"
                 style="--bgColor: {{progress_color}};">
@@ -37,7 +37,10 @@
                         {{progress_color}};
                         filter: brightness(1.1)
                     {% endif %};">
-                    {{task.project.title}}
+                    <span class="evenly-spaced">
+                        <span>{{task.project.title}}</span>
+                        <a href="{{url_for('main.edit_task', task_id=task.id)}}"><img src="{{url_for('static', filename='img/pencil-square.svg')}}"></a>
+                    </span>
                 </div>
                 <div class="overall-task-card-body">
                     <span>{{task.title}}</span>

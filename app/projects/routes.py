@@ -40,12 +40,7 @@ def view_project(project_id):
 
 @projects_bp.route("/projects/add", methods=['GET', 'POST'])
 def add_project():
-    if request.method == "GET":
-        pForm = ProjectForm(
-            # hexColor=""
-        )
-    else:
-        pForm = ProjectForm()
+    pForm = ProjectForm()
     if pForm.validate_on_submit():
         newProject = Project(
             title=pForm.title.data,
@@ -53,9 +48,9 @@ def add_project():
             hexColor=pForm.colorPicked.data,
             official=pForm.official.data,
         )
-        if pForm.startDate.data == "":
+        if pForm.startDate.data != "":
             newProject.startDate = datetime.strptime(pForm.startDate.data, "%m/%d/%y %H:%M")
-        if pForm.endDate.data == "":
+        if pForm.endDate.data != "":
             newProject.startDate = datetime.strptime(pForm.endDate.data, "%m/%d/%y %H:%M")
         db.session.add(newProject)
         db.session.commit()
@@ -88,12 +83,15 @@ def edit_project(project_id):
 
     if pForm.validate_on_submit():
         editProject.title = pForm.title.data
-        if pForm.description.data != "":
-            editProject.description = pForm.description.data
+        editProject.description = pForm.description.data
         if pForm.startDate.data != "":
             editProject.startDate = datetime.strptime(pForm.startDate.data, "%m/%d/%y %H:%M")
+        else:
+            editProject.startDate = None
         if pForm.endDate.data != "":
             editProject.endDate = datetime.strptime(pForm.endDate.data, "%m/%d/%y %H:%M")
+        else:
+            editProject.endDate = None
         if pForm.colorPicked.data != "":
             editProject.hexColor = pForm.colorPicked.data
         editProject.official = pForm.official.data

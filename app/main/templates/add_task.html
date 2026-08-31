@@ -3,64 +3,64 @@
 {% block content %}
 <form method="POST">
     <div class="form">
-        {{ pForm.hidden_tag() }}
+        {{ tForm.hidden_tag() }}
         
         <div class="form-field center-stacked">
-            {{ pForm.title.label }}
-            {{ pForm.title() }}
+            {{ tForm.title.label }}
+            {{ tForm.title() }}
 
-            {% for error in pForm.title.errors %}
+            {% for error in tForm.title.errors %}
                 <span class="form-error">{{ error }}</span>
             {% endfor %}
         </div>
 
         <div class="form-field center-stacked">
-            {{ pForm.description.label }}
-            {{ pForm.description() }}
+            {{ tForm.project.label }}
+            {{ tForm.project() }}
 
-            {% for error in pForm.description.errors %}
+            {% for error in tForm.project.errors %}
+                <span class="form-error">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="form-field center-stacked">
+            {{ tForm.description.label }}
+            {{ tForm.description() }}
+
+            {% for error in tForm.description.errors %}
                 <span class="form-error">{{ error }}</span>
             {% endfor %}
         </div>
         
         <div class="form-field center-stacked">
-            {{ pForm.startDate.label }}
-            {{ pForm.startDate() }}
+            {{ tForm.dueDate.label }}
+            {{ tForm.dueDate() }}
 
-            {% for error in pForm.startDate.errors %}
-                <span class="form-error">{{ error }}</span>
-            {% endfor %}
-        </div>
-        
-        <div class="form-field center-stacked">
-            {{ pForm.endDate.label }}
-            {{ pForm.endDate() }}
-
-            {% for error in pForm.endDate.errors %}
+            {% for error in tForm.dueDate.errors %}
                 <span class="form-error">{{ error }}</span>
             {% endfor %}
         </div>
         
         <div class="form-field">
-            {{ pForm.colorPicked.label }}
-            {{ pForm.colorPicked() }}
+            {{ tForm.priority.label }}
+            {{ tForm.priority() }}
 
-            {% for error in pForm.colorPicked.errors %}
+            {% for error in tForm.priority.errors %}
                 <span class="form-error">{{ error }}</span>
             {% endfor %}
         </div>
         
         <div class="form-field">
-            {{ pForm.official.label }}
-            {{ pForm.official() }}
+            {{ tForm.progress.label }}
+            {{ tForm.progress() }}
 
-            {% for error in pForm.official.errors %}
+            {% for error in tForm.progress.errors %}
                 <span class="form-error">{{ error }}</span>
             {% endfor %}
         </div>
         
         <div class="form-field">
-            {{ pForm.submit() }}
+            {{ tForm.submit() }}
         </div>
     </div>
 </form>
