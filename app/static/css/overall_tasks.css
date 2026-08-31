@@ -3,6 +3,10 @@
     flex-wrap: wrap;
 }
 
+.low-priority {
+    opacity: 0.5;
+}
+
 .overall-task-card {
     width: 15vw;
     aspect-ratio: 5/3;

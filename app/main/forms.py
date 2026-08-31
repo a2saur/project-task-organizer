@@ -22,15 +22,15 @@ class TaskForm(FlaskForm):
                              get_label = lambda proj : proj.title,
                              allow_blank = False)
     title = StringField('Task Name', validators=[DataRequired()])
-    description = StringField('Project Description')
+    description = StringField('Task Description')
     dueDate = StringField('Due Date (m/d/y H:M)')
     priority = SelectField(
         'Priority',
         choices=PRIORITIES,
         default=PRIORITIES[0]
     )
-    status = SelectField(
-        'Status',
+    progress = SelectField(
+        'Progress',
         choices=PROGRESS_OPTIONS,
         default=PROGRESS_OPTIONS[0]
     )

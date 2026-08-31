@@ -81,7 +81,10 @@
                         {{progress_color}};
                         filter: brightness(1.1)
                     {% endif %};">
-                    {{task.project.title}}
+                    <span class="evenly-spaced">
+                        <span>{{task.project.title}}</span>
+                        <a href="{{url_for('main.edit_task', task_id=task.id)}}"><img src="{{url_for('static', filename='img/pencil-square.svg')}}"></a>
+                    </span>
                 </div>
                 <div class="overall-task-card-body">
                     <span>{{task.title}}</span>
