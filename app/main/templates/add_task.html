@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="POST">
+    <div class="form">
+        {{ pForm.hidden_tag() }}
+        
+        <div class="form-field center-stacked">
+            {{ pForm.title.label }}
+            {{ pForm.title() }}
+
+            {% for error in pForm.title.errors %}
+                <span class="form-error">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="form-field center-stacked">
+            {{ pForm.description.label }}
+            {{ pForm.description() }}
+
+            {% for error in pForm.description.errors %}
+                <span class="form-error">{{ error }}</span>
+            {% endfor %}
+        </div>
+        
+        <div class="form-field center-stacked">
+            {{ pForm.startDate.label }}
+            {{ pForm.startDate() }}
+
+            {% for error in pForm.startDate.errors %}
+                <span class="form-error">{{ error }}</span>
+            {% endfor %}
+        </div>
+        
+        <div class="form-field center-stacked">
+            {{ pForm.endDate.label }}
+            {{ pForm.endDate() }}
+
+            {% for error in pForm.endDate.errors %}
+                <span class="form-error">{{ error }}</span>
+            {% endfor %}
+        </div>
+        
+        <div class="form-field">
+            {{ pForm.colorPicked.label }}
+            {{ pForm.colorPicked() }}
+
+            {% for error in pForm.colorPicked.errors %}
+                <span class="form-error">{{ error }}</span>
+            {% endfor %}
+        </div>
+        
+        <div class="form-field">
+            {{ pForm.official.label }}
+            {{ pForm.official() }}
+
+            {% for error in pForm.official.errors %}
+                <span class="form-error">{{ error }}</span>
+            {% endfor %}
+        </div>
+        
+        <div class="form-field">
+            {{ pForm.submit() }}
+        </div>
+    </div>
+</form>
+
+{% endblock %}

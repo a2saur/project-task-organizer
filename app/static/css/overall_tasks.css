@@ -1,0 +1,64 @@
+.task-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.overall-task-card {
+    width: 15vw;
+    aspect-ratio: 5/3;
+
+    margin: 1%;
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2);
+    transition:.15s;
+    box-sizing: border-box;
+}
+.overall-task-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 5px 7px rgba(0, 0, 0, 0.2);
+}
+
+.overall-task-card-header {
+    padding: 5px;
+    background-color: var(--headerColor);
+    color: contrast-color(var(--headerColor)); 
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.overall-task-card-body {
+    padding: 5px;
+    background-color: var(--bgColor);
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    /* font-family: "American Typewriter"; */
+    font-family: "Bradley Hand";
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* padding-top: 25px; */
+    font-size: 1.5rem;
+}
+
+.task-due-date {
+    font-size: 1rem;
+    padding-top: 3%;
+}
+
+.task-time-left {
+    font-size: 1rem;
+    padding-top: 3%;
+}
+
+.overall-task-card-footer {
+    padding: 5px;
+    background-color: var(--bgColor);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.task-due-soon {
+    border: solid #e00 3px;
+}

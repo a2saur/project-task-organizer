@@ -14,7 +14,10 @@
     <div class="project-cards">
     {% for project in projects %}
         <a class="project-card {% if project.official %}official{% else %}unofficial{% endif %}" href="{{url_for('projects.view_project', project_id=project.id)}}">
-            <div class="project-card-header" {% if project.hexColor %}style="background-color:{{project.hexColor}}{% endif %}">
+            <div class="project-card-header" style="--bgColor:
+                {% if project.hexColor %}{{project.hexColor}}
+                {% else %}#FFF{% endif %}
+                ;">
                 <span class="evenly-spaced">
                     <span>{{project.title}}</span>
                     <span>
@@ -37,7 +40,11 @@
                 {{project.description}}
             </div>
             <div class="project-card-footer">
-                {{project.get_num_completed_tasks()}}/{{project.get_num_tasks()}}
+                <span class="evenly-spaced">
+                    <span>{{project.get_num_completed_tasks()}}/{{project.get_num_tasks()}}</span>
+                    <!-- <img src="{{url_for('static', filename='img/pencil-square.svg')}}"> -->
+                     <!-- TODO add edit from this page -->
+                </span>
             </div>
             
         </a>
