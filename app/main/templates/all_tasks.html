@@ -43,10 +43,14 @@
                     </span>
                 </div>
                 <div class="overall-task-card-body">
-                    <span>{{task.title}}</span>
-                    <span>{{task.description}}</span>
+                    {% if task.link %}
+                        <a href="{{task.link}}">{{task.title}}</a>
+                    {% else %}
+                        <span>{{task.title}}</span>
+                    {% endif %}
+                    <span class="overall-task-card-description">{{task.description}}</span>
                     {% if task.dueDate %}
-                        <span class="task-due-date {%if task.progress != 'Done'%}red-marker-underline{%endif%}">{{task.dueDate.strftime('%m/%d/%y')}}</span>
+                        <span class="task-due-date {%if task.progress != 'Done'%}red-marker-underline{%endif%}">{{task.dueDate.strftime('%m/%d/%y %H:%M')}}</span>
                         {% if task.progress != 'Done' %}<span class="task-time-left">
                             {% if td_days != 0%}{{td_days}} days,{%endif%}
                             {{td_hrs | float | round(1)}} hrs

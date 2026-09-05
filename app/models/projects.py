@@ -13,6 +13,7 @@ class Project(db.Model):
     endDate : sqlo.Mapped[Optional[datetime]] = sqlo.mapped_column()
     hexColor : sqlo.Mapped[Optional[str]] = sqlo.mapped_column(sqla.String(7))
     official : sqlo.Mapped[bool] = sqlo.mapped_column(sqla.Boolean, default=False)
+    link : sqlo.Mapped[Optional[str]] = sqlo.mapped_column(sqla.String(100))
 
     # TODO: add project status
     
@@ -31,9 +32,29 @@ class Project(db.Model):
         allTasks = self.get_tasks()
         count = 0
         for task in allTasks:
-            if task.completed:
+            if task.progress == 'Done':
                 count += 1
         return count
+
+    def next_due_date(self):
+        allTasks = db.session.scalars(self.tasks.select()
+                                      .where(Task.progress != "Done")
+                                      .where(Task.dueDate)
+                                      .order_by(Task.dueDate)).all()
+        if len(allTasks) > 0:
+            return allTasks[0]
+        else:
+            return None
+        
+    def last_due_date(self):
+        allTasks = db.session.scalars(self.tasks.select()
+                                      .where(Task.progress != "Done")
+                                      .where(Task.dueDate)
+                                      .order_by(Task.dueDate)).all()
+        if len(allTasks) > 0:
+            return allTasks[-1]
+        else:
+            return None
         
 
 class Task(db.Model):
@@ -42,9 +63,9 @@ class Task(db.Model):
     title : sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(30))
     description : sqlo.Mapped[Optional[str]] = sqlo.mapped_column(sqla.String(250))
     dueDate : sqlo.Mapped[Optional[datetime]] = sqlo.mapped_column()
-    completed : sqlo.Mapped[bool] = sqlo.mapped_column(sqla.Boolean, default=False)
     progress : sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(30))
     priority : sqlo.Mapped[Optional[str]] = sqlo.mapped_column(sqla.String(30), default="Default")
+    link : sqlo.Mapped[Optional[str]] = sqlo.mapped_column(sqla.String(100))
     # TODO: add task types?
 
     boardX : sqlo.Mapped[float] = sqlo.mapped_column(sqla.Float(), default=0.0)

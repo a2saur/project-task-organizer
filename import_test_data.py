@@ -38,12 +38,10 @@ db.session.commit()
 
 # --- Add Tasks ---
 for index, taskInfo in df.iterrows():
-    completion = taskInfo["status"] == "Done"
     task = Task(
         project_id=projects[taskInfo["project"]].id,
         title=taskInfo["task"],
         description="",
-        completed=completion,
         progress=taskInfo["status"],
         boardX=random.random()*0.9, boardY=random.random()*0.9,
         boardRotation=(random.random()*0.2)-0.1, boardSize=(random.random()*0.1)+0.1, boardRatio=(random.random()*0.2)+0.6

@@ -13,6 +13,10 @@
 
     <div class="project-cards">
     {% for project in projects %}
+        {% set numTasks = project.get_num_tasks() %}
+        {% set numTasksCompleted = project.get_num_completed_tasks() %}
+        {% set nextDueTask = project.next_due_date() %}
+        {% set lastDueTask = project.last_due_date() %}
         <a class="project-card {% if project.official %}official{% else %}unofficial{% endif %}" href="{{url_for('projects.view_project', project_id=project.id)}}">
             <div class="project-card-header" style="--bgColor:
                 {% if project.hexColor %}{{project.hexColor}}
@@ -37,13 +41,41 @@
                 </span>
             </div>
             <div class="project-card-body">
-                {{project.description}}
+                {% if project.description %}
+                <span>
+                    {{project.description}}
+                </span>
+                <span class="line"></span>
+                {% endif %}
+                {% if nextDueTask %}
+                <span>
+                    Next task due: {{nextDueTask.title}}
+                    <br>
+                    <span style="margin-left:10px">Due: {{nextDueTask.dueDate.strftime('%m/%d/%y %H:%M')}}</span>
+                </span>
+                {% endif %}
+                {% if numTasks-numTasksCompleted > 1 %}
+                    <br>
+                    <span>
+                        Last task due: {{lastDueTask.title}}
+                        <br>
+                        <span style="margin-left:10px">Due: {{lastDueTask.dueDate.strftime('%m/%d/%y %H:%M')}}</span>
+                    </span>
+                {% endif %}
             </div>
             <div class="project-card-footer">
                 <span class="evenly-spaced">
-                    <span>{{project.get_num_completed_tasks()}}/{{project.get_num_tasks()}}</span>
                     <!-- <img src="{{url_for('static', filename='img/pencil-square.svg')}}"> -->
                      <!-- TODO add edit from this page -->
+
+                    <div class="progress-bar"
+                        style="--barWidth:
+                                {% if numTasks > 0 %}{{numTasksCompleted/numTasks}}
+                                {% else %}0{% endif %};">
+                        <div></div>
+                    </div>
+
+                    <span class="bubble" style="margin-left:5px;">{{numTasksCompleted}}/{{numTasks}}</span>
                 </span>
             </div>
             

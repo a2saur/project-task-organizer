@@ -22,6 +22,15 @@
                 <span class="form-error">{{ error }}</span>
             {% endfor %}
         </div>
+
+        <div class="form-field center-stacked">
+            {{ pForm.link.label }}
+            {{ pForm.link() }}
+
+            {% for error in pForm.link.errors %}
+                <span class="form-error">{{ error }}</span>
+            {% endfor %}
+        </div>
         
         <div class="form-field center-stacked">
             {{ pForm.startDate.label }}

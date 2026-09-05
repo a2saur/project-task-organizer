@@ -1,4 +1,6 @@
-from flask import render_template, flash, redirect, url_for, request, jsonify
+import csv
+import io
+from flask import render_template, flash, redirect, url_for, request, jsonify, Response
 import sqlalchemy as sqla
 
 from app import db
@@ -53,6 +55,9 @@ def update_task_progress(task_id):
 @main_bp.route("/tasks/add", methods=['GET', 'POST'])
 def add_task():
     tForm = TaskForm()
+    project_id = request.args.get("project_id", type=int)
+    if request.method == "GET" and project_id:
+        tForm.project.data = db.session.get(Project, project_id)
     if tForm.validate_on_submit():
         newTask = Task(
             project_id=tForm.project.data.id,
@@ -60,6 +65,7 @@ def add_task():
             description=tForm.description.data,
             progress=tForm.progress.data,
             priority=tForm.priority.data,
+            link=tForm.link.data,
             boardX=random.random()*0.9, boardY=random.random()*0.9,
             boardRotation=(random.random()*0.2)-0.1, boardSize=(random.random()*0.1)+0.1, boardRatio=(random.random()*0.2)+0.6
         )
@@ -67,7 +73,10 @@ def add_task():
             newTask.dueDate = datetime.strptime(tForm.dueDate.data, "%m/%d/%y %H:%M")
         db.session.add(newTask)
         db.session.commit()
-        return redirect(url_for("main.view_tasks"))
+        if project_id:
+            return redirect(url_for("projects.view_project", project_id=project_id))
+        else:
+            return redirect(url_for("main.view_tasks"))
     return render_template("add_task.html", current_view="add_task",
                            tForm=tForm)
 
@@ -80,8 +89,10 @@ def edit_task(task_id):
         dueDate = ""
     if request.method == "GET":
         tForm = TaskForm(
+            project=db.session.get(Project, editTask.project_id),
             title=editTask.title,
             description=editTask.description,
+            link=editTask.link,
             dueDate=dueDate,
             priority=editTask.priority,
             progress=editTask.progress
@@ -100,7 +111,44 @@ def edit_task(task_id):
         else:
             editTask.dueDate = None
         db.session.commit()
-        return redirect(url_for("main.view_tasks"))
+        return redirect(url_for("projects.view_project", project_id=editTask.project_id))
 
     return render_template("add_task.html", current_view="add_task",
                                tForm=tForm)
+
+@main_bp.route("/download/tasks.csv")
+def download_tasks_csv():
+    tasks = db.session.scalars(
+        db.select(Task)
+        .order_by(Task.dueDate)
+    ).all()
+
+    output = io.StringIO()
+    writer = csv.writer(output)
+
+    # Header
+    writer.writerow([
+        "project",
+        "task",
+        "priority",
+        "status",
+        "due date"
+    ])
+
+    # Data
+    for task in tasks:
+        writer.writerow([
+            task.project.title,
+            task.title,
+            task.priority,
+            task.progress,
+            task.dueDate.strftime("%m/%d/%y %H:%M") if task.dueDate else ""
+        ])
+
+    return Response(
+        output.getvalue(),
+        mimetype="text/csv",
+        headers={
+            "Content-Disposition": "attachment; filename=tasks.csv"
+        }
+    )

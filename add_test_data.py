@@ -35,7 +35,6 @@ task1 = Task(
     project_id=proj1.id,
     title="Example task 1",
     description="An example task",
-    completed=True,
     progress="Done",
     boardX=0.1, boardY=0.1, boardRotation=0.1, boardSize=0.1
 )

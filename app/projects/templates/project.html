@@ -1,23 +1,38 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>{{project.title}}</h1>
-
-    {% if project.startDate %}
-        {{project.startDate}} - 
-        {% if project.endDate %}
-            {{project.endDate}}
+    <h1 style="text-align:center;">{{project.title}}    
+    [
+        {% if project.startDate %}
+            {{project.startDate}} - 
+            {% if project.endDate %}
+                {{project.endDate}}
+            {% else %}
+                present
+            {% endif %}
         {% else %}
-            present
+            Ongoing
         {% endif %}
-    {% else %}
-    Ongoing
-    {% endif %}
-
-    {% if project.description %}{{project.description}}{% endif %}
-    {{project.get_num_completed_tasks()}}/{{project.get_num_tasks()}}
-
+    ]
     <a href="{{url_for('projects.edit_project', project_id=project.id)}}"><img src="{{url_for('static', filename='img/pencil-square.svg')}}"></a>
+    {% if project.link %}<a href="{{project.link}}"><img src="{{url_for('static', filename='img/link-45deg.svg')}}"></a>{% endif %}
+    </h1>
+
+    <h3 style="text-align:center;">{% if project.description %}{{project.description}}{% endif %}</h3>
+
+    {% set numTasks = project.get_num_tasks() %}
+    {% set numTasksCompleted = project.get_num_completed_tasks() %}
+    <div class="centered">
+        <span style="width:75%;"><div class="progress-bar"
+            style="--barWidth:
+                    {% if numTasks > 0 %}{{numTasksCompleted/numTasks}}
+                    {% else %}0{% endif %};">
+            <div></div>
+        </div></span>
+        <span style="margin-left: 10px;">{{((numTasksCompleted/numTasks) * 100) | round(2) }}% ({{numTasksCompleted}}/{{numTasks}})</span>
+    </div>
+
+    <br>
 
     <!-- <div class="center-align">
         <div class="project-board">
@@ -72,7 +87,7 @@
                 {% set td_days = 365 %}
             {% endif %}
 
-            <div class="overall-task-card {%if td_days < 3 and task.progress != 'Done'%}task-due-soon{% endif %}"
+            <div class="overall-task-card {%if td_days < 3 and task.progress != 'Done'%}task-due-soon{% endif %} {%if task.priority == 'Not posted'%}low-priority{%endif%}"
                 data-task-id="{{ task.id }}"
                 data-progress="{{ task.progress }}"
                 style="--bgColor: {{progress_color}};">
@@ -87,10 +102,14 @@
                     </span>
                 </div>
                 <div class="overall-task-card-body">
-                    <span>{{task.title}}</span>
-                    <span>{{task.description}}</span>
+                    {% if task.link %}
+                        <a href="{{task.link}}">{{task.title}}</a>
+                    {% else %}
+                        <span>{{task.title}}</span>
+                    {% endif %}
+                    <span class="overall-task-card-description">{{task.description}}</span>
                     {% if task.dueDate %}
-                        <span class="task-due-date {%if task.progress != 'Done'%}red-marker-underline{%endif%}">{{task.dueDate.strftime('%m/%d/%y')}}</span>
+                        <span class="task-due-date {%if task.progress != 'Done'%}red-marker-underline{%endif%}">{{task.dueDate.strftime('%m/%d/%y %H:%M')}}</span>
                         {% if task.progress != 'Done' %}<span class="task-time-left">
                             {% if td_days != 0%}{{td_days}} days,{%endif%}
                             {{td_hrs | float | round(1)}} hrs
