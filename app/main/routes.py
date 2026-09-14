@@ -69,8 +69,9 @@ def add_task():
             boardX=random.random()*0.9, boardY=random.random()*0.9,
             boardRotation=(random.random()*0.2)-0.1, boardSize=(random.random()*0.1)+0.1, boardRatio=(random.random()*0.2)+0.6
         )
-        if tForm.dueDate.data != "":
-            newTask.dueDate = datetime.strptime(tForm.dueDate.data, "%m/%d/%y %H:%M")
+        # if tForm.dueDate.data != "":
+        #     newTask.dueDate = datetime.strptime(tForm.dueDate.data, "%m/%d/%y %H:%M")
+        newTask.set_due_date(tForm.dueDate.data)
         db.session.add(newTask)
         db.session.commit()
         if project_id:
@@ -107,7 +108,8 @@ def edit_task(task_id):
         editTask.progress = tForm.progress.data
         editTask.priority = tForm.priority.data
         if tForm.dueDate.data != "":
-            editTask.dueDate = datetime.strptime(tForm.dueDate.data, "%m/%d/%y %H:%M")
+            # editTask.dueDate = datetime.strptime(tForm.dueDate.data, "%m/%d/%y %H:%M")
+            editTask.set_due_date(tForm.dueDate.data)
         else:
             editTask.dueDate = None
         db.session.commit()

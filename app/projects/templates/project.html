@@ -29,7 +29,9 @@
                     {% else %}0{% endif %};">
             <div></div>
         </div></span>
+        {% if numTasks > 0 %}
         <span style="margin-left: 10px;">{{((numTasksCompleted/numTasks) * 100) | round(2) }}% ({{numTasksCompleted}}/{{numTasks}})</span>
+        {% endif %}
     </div>
 
     <br>
@@ -109,7 +111,7 @@
                     {% endif %}
                     <span class="overall-task-card-description">{{task.description}}</span>
                     {% if task.dueDate %}
-                        <span class="task-due-date {%if task.progress != 'Done'%}red-marker-underline{%endif%}">{{task.dueDate.strftime('%m/%d/%y %H:%M')}}</span>
+                        <span class="task-due-date {%if task.progress != 'Done'%}red-marker-underline{%endif%}">{{task.get_due_date()}}</span>
                         {% if task.progress != 'Done' %}<span class="task-time-left">
                             {% if td_days != 0%}{{td_days}} days,{%endif%}
                             {{td_hrs | float | round(1)}} hrs

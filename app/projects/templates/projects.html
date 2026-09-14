@@ -51,7 +51,7 @@
                 <span>
                     Next task due: {{nextDueTask.title}}
                     <br>
-                    <span style="margin-left:10px">Due: {{nextDueTask.dueDate.strftime('%m/%d/%y %H:%M')}}</span>
+                    <span style="margin-left:10px">Due: {{nextDueTask.get_due_date()}}</span>
                 </span>
                 {% endif %}
                 {% if numTasks-numTasksCompleted > 1 %}
@@ -59,7 +59,7 @@
                     <span>
                         Last task due: {{lastDueTask.title}}
                         <br>
-                        <span style="margin-left:10px">Due: {{lastDueTask.dueDate.strftime('%m/%d/%y %H:%M')}}</span>
+                        <span style="margin-left:10px">Due: {{lastDueTask.get_due_date()}}</span>
                     </span>
                 {% endif %}
             </div>

@@ -49,7 +49,8 @@ for index, taskInfo in df.iterrows():
     if type(taskInfo["priority"]) == str:
         task.priority = taskInfo["priority"]
     if type(taskInfo["due date"]) == str:
-        task.dueDate = datetime.strptime(taskInfo["due date"], "%m/%d/%y %H:%M")
+        # task.dueDate = datetime.strptime(taskInfo["due date"], "%m/%d/%y %H:%M")
+        task.set_due_date(taskInfo["due date"])
     db.session.add(task)
 
 db.session.commit()

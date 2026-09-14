@@ -22,7 +22,8 @@ class Project(db.Model):
 
     # METHODS
     def get_tasks(self):
-        return db.session.scalars(self.tasks.select()).all()
+        # return db.session.scalars(self.tasks.select()).all()
+        return db.session.scalars(self.tasks.select().order_by(Task.dueDate)).all()
 
     def get_num_tasks(self):
         return len(db.session.scalars(self.tasks.select()).all())
@@ -82,3 +83,16 @@ class Task(db.Model):
     # RELATIONSHIPS
     project : sqlo.Mapped[Project] = sqlo.relationship(back_populates='tasks')
     # TODO add depends on and depended on by
+
+    def get_due_date(self):
+        if self.dueDate.hour == 23 and self.dueDate.minute == 59:
+            return self.dueDate.strftime("%m/%d/%y")
+        else:
+            return self.dueDate.strftime("%m/%d/%y %H:%M")
+
+    def set_due_date(self, dateString):
+        if dateString != "":
+            try:
+                self.dueDate = datetime.strptime(dateString, "%m/%d/%y %H:%M")
+            except ValueError:
+                self.dueDate = datetime.strptime(dateString+" 23:59", "%m/%d/%y %H:%M")
