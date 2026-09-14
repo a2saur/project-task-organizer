@@ -39,14 +39,20 @@
                     {% endif %};">
                     <span class="evenly-spaced">
                         <span>{{task.project.title}}</span>
-                        <a href="{{url_for('main.edit_task', task_id=task.id)}}"><img src="{{url_for('static', filename='img/pencil-square.svg')}}"></a>
+                        <span>
+                            <img src="{{url_for('static', filename='img/pin-angle-fill.svg')}}">
+                        </span>
                     </span>
                 </div>
                 <div class="overall-task-card-body">
-                    <span>{{task.title}}</span>
-                    <span>{{task.description}}</span>
+                    {% if task.link %}
+                        <a href="{{task.link}}">{{task.title}}</a>
+                    {% else %}
+                        <span>{{task.title}}</span>
+                    {% endif %}
+                    <span class="overall-task-card-description">{{task.description}}</span>
                     {% if task.dueDate %}
-                        <span class="task-due-date {%if task.progress != 'Done'%}red-marker-underline{%endif%}">{{task.dueDate.strftime('%m/%d/%y')}}</span>
+                        <span class="task-due-date {%if task.progress != 'Done'%}red-marker-underline{%endif%}">{{task.get_due_date()}}</span>
                         {% if task.progress != 'Done' %}<span class="task-time-left">
                             {% if td_days != 0%}{{td_days}} days,{%endif%}
                             {{td_hrs | float | round(1)}} hrs
@@ -54,14 +60,17 @@
                     {% endif %}
                 </div>
                 <div class="overall-task-card-footer">
-                    <select class="task-progress">
-                        {% for progress in progress_opts %}
-                            <option value="{{ progress }}"
-                                {% if task.progress == progress %}selected{% endif %}>
-                                {{ progress }}
-                            </option>
-                        {% endfor %}
-                    </select>
+                    <div class="evenly-spaced">
+                        <select class="task-progress">
+                            {% for progress in progress_opts %}
+                                <option value="{{ progress }}"
+                                    {% if task.progress == progress %}selected{% endif %}>
+                                    {{ progress }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <a href="{{url_for('main.edit_task', task_id=task.id)}}"><img src="{{url_for('static', filename='img/pencil-square.svg')}}"></a>
+                    </div>
                 </div>
             </div>
             {% endfor %}

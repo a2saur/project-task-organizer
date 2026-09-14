@@ -31,6 +31,15 @@
                 <span class="form-error">{{ error }}</span>
             {% endfor %}
         </div>
+
+        <div class="form-field center-stacked">
+            {{ tForm.link.label }}
+            {{ tForm.link() }}
+
+            {% for error in tForm.link.errors %}
+                <span class="form-error">{{ error }}</span>
+            {% endfor %}
+        </div>
         
         <div class="form-field center-stacked">
             {{ tForm.dueDate.label }}

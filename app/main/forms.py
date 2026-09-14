@@ -11,6 +11,7 @@ class ProjectForm(FlaskForm):
     title = StringField('Project Title', validators=[DataRequired()])
     description = StringField('Project Description')
     startDate = StringField('Start Date (m/d/y)')
+    link = StringField('Link for task')
     endDate = StringField('End Date (m/d/y)')
     colorPicked = ColorField("Project Color")
     official = BooleanField("Official? ")
@@ -23,6 +24,7 @@ class TaskForm(FlaskForm):
                              allow_blank = False)
     title = StringField('Task Name', validators=[DataRequired()])
     description = StringField('Task Description')
+    link = StringField('Link for task')
     dueDate = StringField('Due Date (m/d/y H:M)')
     priority = SelectField(
         'Priority',

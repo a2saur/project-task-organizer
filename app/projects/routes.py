@@ -46,6 +46,7 @@ def add_project():
             title=pForm.title.data,
             description=pForm.description.data,
             hexColor=pForm.colorPicked.data,
+            link=pForm.link.data,
             official=pForm.official.data,
         )
         if pForm.startDate.data != "":
@@ -74,6 +75,7 @@ def edit_project(project_id):
             title=editProject.title,
             description=editProject.description,
             startDate=startDate,
+            link=editProject.link,
             endDate=endDate,
             colorPicked=editProject.hexColor,
             official=editProject.official,

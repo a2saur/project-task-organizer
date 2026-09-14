@@ -38,12 +38,10 @@ db.session.commit()
 
 # --- Add Tasks ---
 for index, taskInfo in df.iterrows():
-    completion = taskInfo["status"] == "Done"
     task = Task(
         project_id=projects[taskInfo["project"]].id,
         title=taskInfo["task"],
         description="",
-        completed=completion,
         progress=taskInfo["status"],
         boardX=random.random()*0.9, boardY=random.random()*0.9,
         boardRotation=(random.random()*0.2)-0.1, boardSize=(random.random()*0.1)+0.1, boardRatio=(random.random()*0.2)+0.6
@@ -51,7 +49,8 @@ for index, taskInfo in df.iterrows():
     if type(taskInfo["priority"]) == str:
         task.priority = taskInfo["priority"]
     if type(taskInfo["due date"]) == str:
-        task.dueDate = datetime.strptime(taskInfo["due date"], "%m/%d/%y %H:%M")
+        # task.dueDate = datetime.strptime(taskInfo["due date"], "%m/%d/%y %H:%M")
+        task.set_due_date(taskInfo["due date"])
     db.session.add(task)
 
 db.session.commit()
