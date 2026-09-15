@@ -28,6 +28,7 @@
                     {% if current_view == 'add_task' %}class="active"{% endif %}>Add Task</a>
             <a href="{{url_for('projects.add_project')}}" {%if current_view=='add_project'%} class="active"{%endif%}>Add Project</a>
             <a href="{{ url_for('main.download_tasks_csv') }}">Download Tasks CSV</a>
+            <a href="{{ url_for('main.download_projects_csv') }}">Download Projects CSV</a>
         </span>
     </span>
 </nav>

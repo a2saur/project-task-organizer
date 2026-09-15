@@ -64,6 +64,8 @@ class Task(db.Model):
     title : sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(30))
     description : sqlo.Mapped[Optional[str]] = sqlo.mapped_column(sqla.String(250))
     dueDate : sqlo.Mapped[Optional[datetime]] = sqlo.mapped_column()
+    softDeadline : sqlo.Mapped[bool] = sqlo.mapped_column(sqla.Boolean, default=False)
+    doToday : sqlo.Mapped[bool] = sqlo.mapped_column(sqla.Boolean, default=False)
     progress : sqlo.Mapped[str] = sqlo.mapped_column(sqla.String(30))
     priority : sqlo.Mapped[Optional[str]] = sqlo.mapped_column(sqla.String(30), default="Default")
     link : sqlo.Mapped[Optional[str]] = sqlo.mapped_column(sqla.String(100))

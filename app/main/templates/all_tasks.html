@@ -28,7 +28,9 @@
                 {% set td_days = 365 %}
             {% endif %}
 
-            <div class="overall-task-card {%if td_days < 3 and task.progress != 'Done'%}task-due-soon{% endif %} {%if task.priority == 'Not posted'%}low-priority{%endif%}"
+            <div class="overall-task-card 
+                {%if td_days < 3 and task.progress != 'Done'%}task-due-soon{% endif %} 
+                {%if task.priority == 'Not posted'%}low-priority{%endif%}"
                 data-task-id="{{ task.id }}"
                 data-progress="{{ task.progress }}"
                 style="--bgColor: {{progress_color}};">
@@ -52,7 +54,10 @@
                     {% endif %}
                     <span class="overall-task-card-description">{{task.description}}</span>
                     {% if task.dueDate %}
-                        <span class="task-due-date {%if task.progress != 'Done'%}red-marker-underline{%endif%}">{{task.get_due_date()}}</span>
+                        <span class="task-due-date 
+                            {%if task.progress != 'Done'%}
+                                {%if task.softDeadline %}blue-marker-underline{%else%}red-marker-underline{%endif%}
+                            {%endif%}">{{task.get_due_date()}}</span>
                         {% if task.progress != 'Done' %}<span class="task-time-left">
                             {% if td_days != 0%}{{td_days}} days,{%endif%}
                             {{td_hrs | float | round(1)}} hrs

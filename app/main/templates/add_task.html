@@ -69,6 +69,16 @@
         </div>
         
         <div class="form-field">
+            {{ tForm.softDeadline.label }}
+            {{ tForm.softDeadline() }}
+
+            {% for error in tForm.softDeadline.errors %}
+                <span class="form-error">{{ error }}</span>
+            {% endfor %}
+        </div>
+        
+        
+        <div class="form-field">
             {{ tForm.submit() }}
         </div>
     </div>
