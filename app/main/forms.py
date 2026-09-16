@@ -36,4 +36,5 @@ class TaskForm(FlaskForm):
         choices=PROGRESS_OPTIONS,
         default=PROGRESS_OPTIONS[0]
     )
+    softDeadline = BooleanField("Soft Deadline")
     submit = SubmitField('Save')

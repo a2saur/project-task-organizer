@@ -130,6 +130,9 @@ nav a:hover {
 .red-marker-underline {
     text-decoration: solid underline rgb(198, 0, 0) 3px;
 }
+.blue-marker-underline {
+    text-decoration: solid underline rgb(0, 69, 198) 3px;
+}
 
 .centered {
     width: 100%;

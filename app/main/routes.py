@@ -35,8 +35,10 @@ def index():
 @main_bp.route('/tasks', methods=['GET'])
 def view_tasks():
     # allTasks = db.session.scalars(sqla.select(Task))
-    allTasks = Task.query.order_by(Task.dueDate.asc()).all()
+    todayTasks = Task.query.filter_by(doToday=True).order_by(Task.dueDate.asc()).all()
+    allTasks = Task.query.filter_by(doToday=False).order_by(Task.dueDate.asc()).all()
     return render_template('all_tasks.html', current_view='tasks', 
+                           todayTasks=todayTasks,
                            tasks=allTasks,
                            today=datetime.today(),
                            progress_opts=PROGRESS_OPTIONS)
@@ -47,6 +49,16 @@ def update_task_progress(task_id):
 
     data = request.get_json()
     task.progress = data["newProgress"]
+
+    db.session.commit()
+
+    return {"success": True}
+
+@main_bp.route("/tasks/<int:task_id>/pin", methods=["POST"])
+def update_task_pin(task_id):
+    task = Task.query.get_or_404(task_id)
+
+    task.doToday = not task.doToday
 
     db.session.commit()
 
@@ -66,6 +78,7 @@ def add_task():
             progress=tForm.progress.data,
             priority=tForm.priority.data,
             link=tForm.link.data,
+            softDeadline=tForm.softDeadline.data,
             boardX=random.random()*0.9, boardY=random.random()*0.9,
             boardRotation=(random.random()*0.2)-0.1, boardSize=(random.random()*0.1)+0.1, boardRatio=(random.random()*0.2)+0.6
         )
@@ -95,6 +108,7 @@ def edit_task(task_id):
             description=editTask.description,
             link=editTask.link,
             dueDate=dueDate,
+            softDeadline=editTask.softDeadline,
             priority=editTask.priority,
             progress=editTask.progress
         )
@@ -107,6 +121,7 @@ def edit_task(task_id):
         editTask.description = tForm.description.data
         editTask.progress = tForm.progress.data
         editTask.priority = tForm.priority.data
+        editTask.softDeadline = tForm.softDeadline.data
         if tForm.dueDate.data != "":
             # editTask.dueDate = datetime.strptime(tForm.dueDate.data, "%m/%d/%y %H:%M")
             editTask.set_due_date(tForm.dueDate.data)
@@ -132,9 +147,12 @@ def download_tasks_csv():
     writer.writerow([
         "project",
         "task",
+        "description",
         "priority",
         "status",
-        "due date"
+        "due date",
+        "soft deadline?",
+        "link"
     ])
 
     # Data
@@ -142,9 +160,12 @@ def download_tasks_csv():
         writer.writerow([
             task.project.title,
             task.title,
+            task.description,
             task.priority,
             task.progress,
-            task.dueDate.strftime("%m/%d/%y %H:%M") if task.dueDate else ""
+            task.dueDate.strftime("%m/%d/%y %H:%M") if task.dueDate else "",
+            task.softDeadline,
+            task.link
         ])
 
     return Response(
@@ -152,5 +173,46 @@ def download_tasks_csv():
         mimetype="text/csv",
         headers={
             "Content-Disposition": "attachment; filename=tasks.csv"
+        }
+    )
+
+@main_bp.route("/download/projects.csv")
+def download_projects_csv():
+    projects = db.session.scalars(
+        db.select(Project)
+        .order_by(Project.title)
+    ).all()
+
+    output = io.StringIO()
+    writer = csv.writer(output)
+
+    # Header
+    writer.writerow([
+        "title",
+        "description",
+        "color",
+        "start date",
+        "end date",
+        "official",
+        "link"
+    ])
+
+    # Data
+    for project in projects:
+        writer.writerow([
+            project.title,
+            project.description,
+            project.hexColor,
+            project.startDate.strftime("%m/%d/%y %H:%M") if project.startDate else "",
+            project.endDate.strftime("%m/%d/%y %H:%M") if project.endDate else "",
+            project.official,
+            project.link
+        ])
+
+    return Response(
+        output.getvalue(),
+        mimetype="text/csv",
+        headers={
+            "Content-Disposition": "attachment; filename=projects.csv"
         }
     )

@@ -13,7 +13,7 @@ import pandas as pd
 import random
 
 # --- Read data ---
-df = pd.read_csv("setup-files/todos.csv")
+df = pd.read_csv("setup-files/tasks.csv")
 # projectDeets = pd.read_csv("setup-files/projects.csv")
 
 
@@ -41,8 +41,10 @@ for index, taskInfo in df.iterrows():
     task = Task(
         project_id=projects[taskInfo["project"]].id,
         title=taskInfo["task"],
-        description="",
+        description=taskInfo["description"],
+        softDeadline=taskInfo["soft deadline?"],
         progress=taskInfo["status"],
+        link=taskInfo["link"],
         boardX=random.random()*0.9, boardY=random.random()*0.9,
         boardRotation=(random.random()*0.2)-0.1, boardSize=(random.random()*0.1)+0.1, boardRatio=(random.random()*0.2)+0.6
     )

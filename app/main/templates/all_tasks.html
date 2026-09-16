@@ -5,75 +5,22 @@
     <input type="checkbox" id="show-completed">
     Show completed tasks
 </label>
-
-    <div class="center-align">
-        <div class="task-container">
-            {% for task in tasks %}
-            {% if task.progress == 'Not started' %}
-                {% set progress_color = "#ffd4d4" %}
-            {% elif task.progress == 'In progress' %}
-                {% set progress_color = "#feffd4" %}
-            {% elif task.progress == 'Almost done' %}
-                {% set progress_color = "#e7ffc2" %}
-            {% elif task.progress == 'Done' %}
-                {% set progress_color = "#c6ffc4" %}
-            {% else %}
-                {% set progress_color = "#e8d4ff" %}
-            {% endif %}
-
-            {% if task.dueDate %}
-                {% set td_days = (task.dueDate-today).days %}
-                {% set td_hrs = ((task.dueDate-today).total_seconds()/3600) - (td_days*24)%}
-            {% else %}
-                {% set td_days = 365 %}
-            {% endif %}
-
-            <div class="overall-task-card {%if td_days < 3 and task.progress != 'Done'%}task-due-soon{% endif %} {%if task.priority == 'Not posted'%}low-priority{%endif%}"
-                data-task-id="{{ task.id }}"
-                data-progress="{{ task.progress }}"
-                style="--bgColor: {{progress_color}};">
-                <div class="overall-task-card-header" style="--headerColor: {% if task.project.hexColor %}{{task.project.hexColor}}
-                    {% else %}
-                        {{progress_color}};
-                        filter: brightness(1.1)
-                    {% endif %};">
-                    <span class="evenly-spaced">
-                        <span>{{task.project.title}}</span>
-                        <span>
-                            <img src="{{url_for('static', filename='img/pin-angle-fill.svg')}}">
-                        </span>
-                    </span>
-                </div>
-                <div class="overall-task-card-body">
-                    {% if task.link %}
-                        <a href="{{task.link}}">{{task.title}}</a>
-                    {% else %}
-                        <span>{{task.title}}</span>
-                    {% endif %}
-                    <span class="overall-task-card-description">{{task.description}}</span>
-                    {% if task.dueDate %}
-                        <span class="task-due-date {%if task.progress != 'Done'%}red-marker-underline{%endif%}">{{task.get_due_date()}}</span>
-                        {% if task.progress != 'Done' %}<span class="task-time-left">
-                            {% if td_days != 0%}{{td_days}} days,{%endif%}
-                            {{td_hrs | float | round(1)}} hrs
-                        </span>{% endif %}
-                    {% endif %}
-                </div>
-                <div class="overall-task-card-footer">
-                    <div class="evenly-spaced">
-                        <select class="task-progress">
-                            {% for progress in progress_opts %}
-                                <option value="{{ progress }}"
-                                    {% if task.progress == progress %}selected{% endif %}>
-                                    {{ progress }}
-                                </option>
-                            {% endfor %}
-                        </select>
-                        <a href="{{url_for('main.edit_task', task_id=task.id)}}"><img src="{{url_for('static', filename='img/pencil-square.svg')}}"></a>
-                    </div>
-                </div>
+    <div style="padding-left: 25px; padding-right: 25px">
+        <div class="task-container-header">Today's tasks</div>
+        <div class="center-align">
+            <div class="task-container" id="today-tasks">
+                {% for task in todayTasks %}
+                    {% include '_task.html' %}
+                {% endfor %}
             </div>
-            {% endfor %}
+        </div>
+        <div class="task-container-header">Future tasks</div>
+        <div class="center-align">
+            <div class="task-container" id="future-tasks">
+                {% for task in tasks %}
+                    {% include '_task.html' %}
+                {% endfor %}
+            </div>
         </div>
     </div>
 
