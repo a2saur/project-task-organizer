@@ -35,8 +35,10 @@ def index():
 @main_bp.route('/tasks', methods=['GET'])
 def view_tasks():
     # allTasks = db.session.scalars(sqla.select(Task))
-    allTasks = Task.query.order_by(Task.dueDate.asc()).all()
+    todayTasks = Task.query.filter_by(doToday=True).order_by(Task.dueDate.asc()).all()
+    allTasks = Task.query.filter_by(doToday=False).order_by(Task.dueDate.asc()).all()
     return render_template('all_tasks.html', current_view='tasks', 
+                           todayTasks=todayTasks,
                            tasks=allTasks,
                            today=datetime.today(),
                            progress_opts=PROGRESS_OPTIONS)
@@ -47,6 +49,16 @@ def update_task_progress(task_id):
 
     data = request.get_json()
     task.progress = data["newProgress"]
+
+    db.session.commit()
+
+    return {"success": True}
+
+@main_bp.route("/tasks/<int:task_id>/pin", methods=["POST"])
+def update_task_pin(task_id):
+    task = Task.query.get_or_404(task_id)
+
+    task.doToday = not task.doToday
 
     db.session.commit()
 
