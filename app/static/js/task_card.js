@@ -23,16 +23,27 @@ document.querySelectorAll('.pin-task-btn').forEach(button => {
         });
 
         // TODO: move task to today's tasks or not
+        // if (!response.ok) {
+        //     console.error("Failed to update task");
+        // } else {
+        //     if (doToday){
+        //         futureTasks.prepend(event.target.closest('.overall-task-card'));
+        //     } else {
+        //         todayTasks.prepend(event.target.closest('.overall-task-card'));
+        //     }
+        // }
         if (!response.ok) {
             console.error("Failed to update task");
         } else {
-            if (doToday){
-                // event.target.setAttribute('data-do-today', "False");
-                futureTasks.prepend(event.target.closest('.overall-task-card'));
+            const card = event.target.closest(".overall-task-card");
+
+            if (doToday) {
+                futureTasks.prepend(card);
             } else {
-                // event.target.setAttribute('data-do-today', "True");
-                todayTasks.prepend(event.target.closest('.overall-task-card'));
+                todayTasks.prepend(card);
             }
+
+            updateTaskDisplay();
         }
     });
 });
@@ -60,23 +71,7 @@ document.querySelectorAll(".task-progress").forEach(select => {
             const color = progressColors[progressVal] || "#e8d4ff";
             taskCard.style.setProperty("--bgColor", color);
 
-            taskCard.dataset.progress = progress;
+            taskCard.dataset.progress = progressVal;
         }
     });
 });
-
-const showCompleted = document.getElementById("show-completed");
-const taskCards = document.querySelectorAll(".overall-task-card");
-
-function updateCompletedVisibility() {
-    taskCards.forEach(card => {
-        if (card.dataset.progress === "Done") {
-            card.style.display = showCompleted.checked ? "" : "none";
-        }
-    });
-}
-
-showCompleted.addEventListener("change", updateCompletedVisibility);
-
-// Hide completed tasks initially
-updateCompletedVisibility();

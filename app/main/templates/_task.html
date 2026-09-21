@@ -18,10 +18,13 @@
 {% endif %}
 
 <div class="overall-task-card 
-    {%if td_days < 3 and task.progress != 'Done'%}task-due-soon{% endif %} 
+    {%if task.progress != 'Done' and td_days < 3 and task.softDeadline == False%}task-due-soon{% endif %} 
     {%if task.priority == 'Not posted'%}low-priority{%endif%}"
     data-task-id="{{ task.id }}"
     data-progress="{{ task.progress }}"
+    data-due-date="{{ task.dueDate.isoformat() if task.dueDate else '' }}"
+    data-project-id="{{ task.project_id }}"
+    data-project="{{ task.project.title }}"
     style="--bgColor: {{progress_color}};">
     <div class="overall-task-card-header" style="--headerColor: {% if task.project.hexColor %}{{task.project.hexColor}}
         {% else %}

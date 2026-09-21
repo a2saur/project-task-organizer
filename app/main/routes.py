@@ -41,7 +41,8 @@ def view_tasks():
                            todayTasks=todayTasks,
                            tasks=allTasks,
                            today=datetime.today(),
-                           progress_opts=PROGRESS_OPTIONS)
+                           progress_opts=PROGRESS_OPTIONS,
+                           projects=Project.query.all())
 
 @main_bp.route("/tasks/<int:task_id>/progress", methods=["POST"])
 def update_task_progress(task_id):

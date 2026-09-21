@@ -1,7 +1,14 @@
 .task-container {
+    /* display: flex;
+    flex-wrap: wrap; */
+    width: 100%;
+}
+
+.task-group {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
+    gap: 20px;
 }
 
 .low-priority {

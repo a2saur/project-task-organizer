@@ -1,21 +1,53 @@
 {% extends "base.html" %}
 
 {% block content %}
-<label class="completed-toggle">
-    <input type="checkbox" id="show-completed">
-    Show completed tasks
-</label>
+    <div class="task-controls">
+        <label class="completed-toggle">
+            <input type="checkbox" id="show-completed">
+            Show completed tasks
+        </label>
+        
+        <label class="group-toggle">
+            <input type="checkbox" id="group-tasks">
+            Separate task groups
+        </label>
+
+        Filter projects:
+        <div class="project-filter">
+            <button type="button" id="project-filter-button">Projects</button>
+
+            <div id="project-filter-menu" class="project-filter-menu">
+                {% for project in projects %}
+                    <label>
+                        <input
+                            type="checkbox"
+                            class="project-filter-option"
+                            value="{{ project.id }}"
+                        >
+                        {{ project.title }}
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+
+        <label>
+            Sort by:
+            <select id="task-sort">
+                <option value="due-asc">Due date: soonest</option>
+                <option value="due-desc">Due date: latest</option>
+                <option value="project">Project</option>
+            </select>
+        </label>
+    </div>
+
     <div style="padding-left: 25px; padding-right: 25px">
         <div class="task-container-header">Today's tasks</div>
-        <div class="center-align">
             <div class="task-container" id="today-tasks">
                 {% for task in todayTasks %}
                     {% include '_task.html' %}
                 {% endfor %}
             </div>
-        </div>
         <div class="task-container-header">Future tasks</div>
-        <div class="center-align">
             <div class="task-container" id="future-tasks">
                 {% for task in tasks %}
                     {% include '_task.html' %}
@@ -25,4 +57,5 @@
     </div>
 
     <script src="{{ url_for('static', filename='js/task_card.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/order_filter_tasks.js') }}"></script>
 {% endblock %}
