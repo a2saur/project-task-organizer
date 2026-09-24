@@ -1,58 +1,69 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="task-controls">
-        <label class="completed-toggle">
-            <input type="checkbox" id="show-completed">
-            Show completed tasks
-        </label>
-        
-        <label class="group-toggle">
-            <input type="checkbox" id="group-tasks">
-            Separate task groups
-        </label>
+    <div class="task-controls left-align">
+        <div class="task-control-group">
+            <span class="task-control-label">View</span>
 
-        Filter projects:
-        <div class="project-filter">
-            <button type="button" id="project-filter-button">Projects</button>
+            <label class="control-check">
+                <input type="checkbox" id="show-completed">
+                <span>Completed</span>
+            </label>
 
-            <div id="project-filter-menu" class="project-filter-menu">
-                {% for project in projects %}
-                    <label>
-                        <input
-                            type="checkbox"
-                            class="project-filter-option"
-                            value="{{ project.id }}"
-                        >
-                        {{ project.title }}
-                    </label>
-                {% endfor %}
+            <label class="control-check">
+                <input type="checkbox" id="group-tasks">
+                <span>Groups</span>
+            </label>
+        </div>
+
+        <div class="task-control-group">
+            <span class="task-control-label">Filter</span>
+
+            <div class="project-filter">
+                <button type="button" id="project-filter-button">
+                    Projects
+                    <span class="filter-arrow">▾</span>
+                </button>
+
+                <div id="project-filter-menu" class="project-filter-menu">
+                    {% for project in projects %}
+                        <label>
+                            <input
+                                type="checkbox"
+                                class="project-filter-option"
+                                value="{{ project.id }}"
+                            >
+                            <span>{{ project.title }}</span>
+                        </label>
+                    {% endfor %}
+                </div>
             </div>
         </div>
 
-        <label>
-            Sort by:
+        <div class="task-control-group">
+            <span class="task-control-label">Sort</span>
+
             <select id="task-sort">
                 <option value="due-asc">Due date: soonest</option>
                 <option value="due-desc">Due date: latest</option>
                 <option value="project">Project</option>
             </select>
-        </label>
+        </div>
     </div>
 
     <div style="padding-left: 25px; padding-right: 25px">
-        <div class="task-container-header">Today's tasks</div>
-            <div class="task-container" id="today-tasks">
-                {% for task in todayTasks %}
-                    {% include '_task.html' %}
-                {% endfor %}
-            </div>
-        <div class="task-container-header">Future tasks</div>
-            <div class="task-container" id="future-tasks">
-                {% for task in tasks %}
-                    {% include '_task.html' %}
-                {% endfor %}
-            </div>
+        <h2 class="task-container-header">Today</h2>
+        <div class="task-container" id="today-tasks">
+            {% for task in todayTasks %}
+                {% include '_task.html' %}
+            {% endfor %}
+        </div>
+
+        <h2 class="task-container-header">Future</h2>
+        <div class="task-container" id="future-tasks">
+            {% for task in tasks %}
+                {% include '_task.html' %}
+            {% endfor %}
         </div>
     </div>
 

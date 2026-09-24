@@ -1,3 +1,38 @@
+const projectFilterButton = document.getElementById("project-filter-button");
+const projectFilterMenu = document.getElementById("project-filter-menu");
+
+projectFilterButton.addEventListener("click", () => {
+    projectFilterMenu.style.display =
+        projectFilterMenu.style.display === "block"
+            ? "none"
+            : "block";
+});
+
+function updateProjectFilterButton() {
+    const totalProjects =
+        document.querySelectorAll(".project-filter-option").length;
+
+    const selected = document.querySelectorAll(
+        ".project-filter-option:checked"
+    );
+
+    if (selected.length === 0) {
+        projectFilterButton.innerHTML =
+            'Projects (All) <span class="filter-arrow">▾</span>';
+    } else {
+        projectFilterButton.innerHTML =
+            `Projects (${totalProjects-selected.length}) <span class="filter-arrow">▾</span>`;
+    }
+}
+updateProjectFilterButton();
+
+document.querySelectorAll(".project-filter-option").forEach(option => {
+    option.addEventListener("change", () => {
+        updateProjectFilterButton();
+        updateTaskDisplay();
+    });
+});
+
 const taskSort = document.getElementById("task-sort");
 const allTaskCards = [...document.querySelectorAll(".overall-task-card")];
 
