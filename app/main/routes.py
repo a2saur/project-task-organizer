@@ -44,6 +44,18 @@ def view_tasks():
                            progress_opts=PROGRESS_OPTIONS,
                            projects=Project.query.all())
 
+@main_bp.route('/taskstable', methods=['GET'])
+def view_tasks_table():
+    # allTasks = db.session.scalars(sqla.select(Task))
+    todayTasks = Task.query.filter_by(doToday=True).order_by(Task.dueDate.asc()).all()
+    allTasks = Task.query.filter_by(doToday=False).order_by(Task.dueDate.asc()).all()
+    return render_template('all_tasks_table.html', current_view='tasks', 
+                           todayTasks=todayTasks,
+                           tasks=allTasks,
+                           today=datetime.today(),
+                           progress_opts=PROGRESS_OPTIONS,
+                           projects=Project.query.all())
+
 @main_bp.route("/tasks/<int:task_id>/progress", methods=["POST"])
 def update_task_progress(task_id):
     task = Task.query.get_or_404(task_id)

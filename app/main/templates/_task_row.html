@@ -1,0 +1,36 @@
+{% if task.progress == 'Not started' %}
+    {% set progress_color = "#ffd4d4" %}
+{% elif task.progress == 'In progress' %}
+    {% set progress_color = "#feffd4" %}
+{% elif task.progress == 'Almost done' %}
+    {% set progress_color = "#e7ffc2" %}
+{% elif task.progress == 'Done' %}
+    {% set progress_color = "#c6ffc4" %}
+{% else %}
+    {% set progress_color = "#e8d4ff" %}
+{% endif %}
+<tr class="{% if task.doToday %}do-today-row{% endif %}
+    {% if end_today %}task-today-row{% endif %}">
+    <td>{% if task.doToday %}x{% endif %}</td>
+    <td class="progress-cell"
+        style="--bgColor: {{progress_color}};">{{task.progress}}</td>
+    <td>{{task.title}}</td>
+    <td class="project-cell"
+        style="--bgColor: {{task.project.hexColor}}">{{task.project.title}}</td>
+    <td>{% if task.description %}{{task.description}}{% endif %}</td>
+    {% if task.dueDate %}
+        <td
+            {%if task.progress != 'Done'%}
+                {%if task.softDeadline %}blue-marker-underline{%else%}red-marker-underline{%endif%}
+            {%endif%}">{{task.get_due_date()}}</td>
+        <td>{% if task.progress != 'Done' %}
+            {% set td_days = (task.dueDate-today).days %}
+            {% set td_hrs = ((task.dueDate-today).total_seconds()/3600) - (td_days*24)%}
+            {% if td_days != 0%}{{td_days}} days,{%endif%}
+            {{td_hrs | float | round(1)}} hrs{% endif %}
+        </td>
+    {% else %}
+        <td></td>
+        <td></td>
+    {% endif %}
+</tr>

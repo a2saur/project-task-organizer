@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/task_table.css') }}">
+    <table class="task-table">
+        <tr class="task-header-row">
+            <th></th>
+            <th>Progress</th>
+            <th>Task</th>
+            <th>Project</th>
+            <th>Notes</th>
+            <th>Due Date</th>
+            <th>Time Left</th>
+        </tr>
+        {% set end_today=false %}
+        {% for task in todayTasks %}
+            {% if task.progress != 'Done' %}
+                {% if loop.last %}
+                    {% set end_today=true %}
+                {% endif %}
+                {% include '_task_row.html' %}
+            {% endif %}
+        {% endfor %}
+
+        {% set end_today=false %}
+        {% for task in tasks %}
+            {% if task.progress != 'Done' %}
+                {% include '_task_row.html' %}
+            {% endif %}
+        {% endfor %}
+    </table>
+{% endblock %}
